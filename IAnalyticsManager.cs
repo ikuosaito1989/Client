@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using mygkrnk.Models;
 
 namespace mygkrnk.Manager
