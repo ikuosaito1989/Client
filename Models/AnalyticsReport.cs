@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
-using Newtonsoft.Json;
-
-namespace mygkrnk.Models
+﻿namespace webApi.Models
 {
     public class AnalyticsReport
     {

@@ -5,12 +5,19 @@ using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
 
-namespace mygkrnk.Manager
+namespace webApi.Client
 {
-    public class SpotifyManager : ISpotifyManager
+    public interface ISpotifyClient
+    {
+        Task<SearchItem> SearchAirtistItemsAsync(string q, int limit = 1, int offset = 0, string market = "");
+        Task<FullArtist> GetArtistAsync(string id);
+        Task<SeveralArtists> GetSeveralArtists(List<string> ids);
+    }
+
+    public class SpotifyClient : ISpotifyClient
     {
         private static SpotifyWebAPI _spotify;
-        public SpotifyManager(string clientId, string clientSecret)
+        public SpotifyClient(string clientId, string clientSecret)
         {
             var auth = new CredentialsAuth(clientId, clientSecret);
             var token = auth.GetToken().Result;

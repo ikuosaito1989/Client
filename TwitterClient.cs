@@ -1,15 +1,20 @@
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CoreTweet;
 
-namespace mygkrnk.Manager
+namespace webApi.Client
 {
-    public class TwitterManager : ITwitterManager
+    public interface ITwitterClient
+    {
+        Task<SearchResult> SearchTweets(params Expression<Func<string, object>>[] parameters);
+        UserResponse ShowUser(params Expression<Func<string, object>>[] parameters);
+    }
+
+    public class TwitterClient : ITwitterClient
     {
         private Tokens _tokens;
-        public TwitterManager(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
+        public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
         {
             _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
         }

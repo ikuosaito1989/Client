@@ -1,18 +1,23 @@
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.AnalyticsReporting.v4;
 using Google.Apis.AnalyticsReporting.v4.Data;
 using Google.Apis.Auth.OAuth2;
-using mygkrnk.Models;
+using webApi.Models;
 
-namespace mygkrnk.Manager
+namespace webApi.Client
 {
-    public class AnalyticsManager : IAnalyticsManager
+    public interface IAnalyticsClient
+    {
+        IEnumerable<AnalyticsReport> GetAnalyticsReport();
+    }
+    
+    public class AnalyticsClient : IAnalyticsClient
     {
         GoogleCredential _credential;
         string _viewId;
-        public AnalyticsManager(string path, string viewId)
+        public AnalyticsClient(string path, string viewId)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {

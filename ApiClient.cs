@@ -1,19 +1,26 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp.Parser.Html;
-using mygkrnk.Models;
+using webApi.Models;
 using Newtonsoft.Json;
 
-namespace mygkrnk.Manager
+namespace webApi.Client
 {
-    public class ApiManager : IApiManager
+    public interface IApiClient
+    {
+        Task<string> GetWikiContents(string urlString);
+        Task<YoutubeData> GetYoutubeContents(string videoId, string youtubeDataApiUrl, string youtubeDataApiKey);
+        Task<List<BillboardDom>> GetBillboardDom(DateTime week);
+    }
+
+    public class ApiClient : IApiClient
     {
         private static HttpClient _client;
-        public ApiManager(HttpClient client)
+        public ApiClient(HttpClient client)
         {
             _client = client;
         }
@@ -54,7 +61,6 @@ namespace mygkrnk.Manager
             var dom = new List<BillboardDom>();
 
             var domItem = new BillboardDom();
-            //dropdown__date-selector-option 
 
             var weeks = doc.GetElementsByClassName("dropdown__date-selector-option");
             var prevString = Regex.Match(weeks[0].InnerHtml, "\\d{4}-\\d{1,2}-\\d{1,2}").Value;

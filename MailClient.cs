@@ -2,11 +2,16 @@ using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace mygkrnk.Manager
+namespace webApi.Client
 {
-    public class MailManager : IMailManager
+    public interface IMailClient
     {
-        public MailManager(string from, string to, string sendGridApiKey)
+        Task SendEmailInSendGrid(string subject, string body, string to = null);
+    }
+
+    public class MailClient : IMailClient
+    {
+        public MailClient(string from, string to, string sendGridApiKey)
         {
             From = from;
             To = to;

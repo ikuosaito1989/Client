@@ -1,6 +1,6 @@
 using System;
 
-namespace mygkrnk.Models
+namespace webApi.Models
 {
     public class BillboardDom
     {
