@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.AnalyticsReporting.v4;
@@ -12,7 +12,7 @@ namespace webApi.Client
     {
         IEnumerable<AnalyticsReport> GetAnalyticsReport();
     }
-    
+
     public class AnalyticsClient : IAnalyticsClient
     {
         GoogleCredential _credential;
