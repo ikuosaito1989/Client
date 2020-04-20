@@ -13,7 +13,6 @@ namespace webApi.Client
     public interface IApiClient
     {
         Task<string> GetWikiContents(string urlString);
-        Task<YoutubeData> GetYoutubeContents(string videoId, string youtubeDataApiUrl, string youtubeDataApiKey);
         Task<List<BillboardDom>> GetBillboardDom(DateTime week);
     }
 
@@ -34,14 +33,6 @@ namespace webApi.Client
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
             var content = Regex.Match(jsonObj.query.pages.ToString(), "\"extract\":.*\".*?\"").Value;
             return content.Replace("\"extract\": \"", "").Replace("\"", "");
-        }
-
-        public async Task<YoutubeData> GetYoutubeContents(string videoId, string youtubeDataApiUrl, string youtubeDataApiKey)
-        {
-            var url = string.Format(youtubeDataApiUrl, videoId, youtubeDataApiKey);
-            var response = await _client.GetAsync(url);
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<YoutubeData>(json);
         }
 
         public async Task<List<BillboardDom>> GetBillboardDom(DateTime week = default(DateTime))

@@ -2,9 +2,9 @@
 
 namespace webApi.Models
 {
-    public class YoutubeData
+    public class YoutubeVideo
     {
-        public List<Item> Items { get; set; }
+        public IEnumerable<Item> Items { get; set; }
     }
     public class Item
     {
