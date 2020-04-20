@@ -33,7 +33,7 @@ namespace webApi.Client
 
         public async Task<YoutubeSearch> SearchVideoAsync(string query)
         {
-            var url = $"{_url}/search?type=video&part=snippet&q={query}&key={_apiKey}";
+            var url = $"{_url}/search?type=video&part=snippet&q={query}&maxResults=50&key={_apiKey}";
             var response = await _client.GetAsync(url);
             return JsonConvert.DeserializeObject<YoutubeSearch>(
                 await response.Content.ReadAsStringAsync());
