@@ -9,7 +9,6 @@ namespace webApi.Client
     public interface IYoutubeClient
     {
         Task<YoutubeVideo> GetVideoAsync(string videoId);
-        Task<YoutubeSearch> SearchVideoAsync(string query);
     }
 
     public class YoutubeClient : IYoutubeClient
@@ -28,14 +27,6 @@ namespace webApi.Client
             var url = $"{_url}/videos?part=statistics&id={videoId}&key={_apiKey}";
             var response = await _client.GetAsync(url);
             return JsonConvert.DeserializeObject<YoutubeVideo>(
-                await response.Content.ReadAsStringAsync());
-        }
-
-        public async Task<YoutubeSearch> SearchVideoAsync(string query)
-        {
-            var url = $"{_url}/search?type=video&part=snippet&q={query}&maxResults=50&key={_apiKey}";
-            var response = await _client.GetAsync(url);
-            return JsonConvert.DeserializeObject<YoutubeSearch>(
                 await response.Content.ReadAsStringAsync());
         }
     }
