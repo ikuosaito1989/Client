@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp.Parser.Html;
-using webApi.Models;
 using Newtonsoft.Json;
+using webApi.Models;
 
 namespace webApi.Client
 {

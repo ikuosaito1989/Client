@@ -1,8 +1,8 @@
 using System;
-using System.Threading.Tasks;
 using System.Net.Http;
-using webApi.Models;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using webApi.Models;
 
 namespace webApi.Client
 {
