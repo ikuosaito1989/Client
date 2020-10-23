@@ -34,7 +34,7 @@ namespace webApi.Client
                 HtmlContent = body.Replace("\r\n", "<br>").Replace("\n", "<br>")
             };
             msg.AddTo(new EmailAddress(to));
-            var response = await client.SendEmailAsync(msg);
+            await client.SendEmailAsync(msg);
         }
     }
 }

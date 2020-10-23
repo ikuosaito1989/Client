@@ -35,11 +35,11 @@ namespace webApi.Client
             return content.Replace("\"extract\": \"", "").Replace("\"", "");
         }
 
-        public async Task<List<BillboardDom>> GetBillboardDom(DateTime week = default(DateTime))
+        public async Task<List<BillboardDom>> GetBillboardDom(DateTime week = default)
         {
 
             var dateString = "";
-            if (week != default(DateTime))
+            if (week != default)
             {
                 dateString = week.ToString("yyyy-MM-dd");
             }

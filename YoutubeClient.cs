@@ -13,8 +13,8 @@ namespace webApi.Client
 
     public class YoutubeClient : IYoutubeClient
     {
-        private string _apiKey;
-        private string _url = "https://www.googleapis.com/youtube/v3";
+        private readonly string _apiKey;
+        private readonly string _url = "https://www.googleapis.com/youtube/v3";
         private static HttpClient _client;
         public YoutubeClient(HttpClient client, string apiKey)
         {

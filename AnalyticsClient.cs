@@ -15,8 +15,8 @@ namespace webApi.Client
 
     public class AnalyticsClient : IAnalyticsClient
     {
-        GoogleCredential _credential;
-        string _viewId;
+        readonly GoogleCredential _credential;
+        readonly string _viewId;
         public AnalyticsClient(string path, string viewId)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))

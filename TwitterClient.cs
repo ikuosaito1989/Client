@@ -13,7 +13,7 @@ namespace webApi.Client
 
     public class TwitterClient : ITwitterClient
     {
-        private Tokens _tokens;
+        private readonly Tokens _tokens;
         public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
         {
             _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
