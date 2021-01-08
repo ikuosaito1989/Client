@@ -1,2 +1,2 @@
 # Client
-library for linking with external services
+Libraries for using external services
