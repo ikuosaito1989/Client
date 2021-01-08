@@ -1,4 +1,4 @@
-namespace webApi.Models
+﻿namespace webApi.Models
 {
     public class AnalyticsReport
     {
