@@ -27,7 +27,7 @@ namespace webApi.Client
         public async Task<string> GetWikiContents(string urlString)
         {
             var url = new Uri(urlString);
-            var requestUrl = string.Format(@"https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={0}", url.Segments.Last().Replace("/", ""));
+            var requestUrl = string.Format("https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={0}", url.Segments.Last().Replace("/", ""));
             var response = await _client.GetAsync(requestUrl);
             var json = await response.Content.ReadAsStringAsync();
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
@@ -37,7 +37,6 @@ namespace webApi.Client
 
         public async Task<List<BillboardDom>> GetBillboardDom(DateTime week = default)
         {
-
             var dateString = "";
             if (week != default)
             {

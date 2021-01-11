@@ -15,8 +15,8 @@ namespace webApi.Client
 
     public class AnalyticsClient : IAnalyticsClient
     {
-        readonly GoogleCredential _credential;
-        readonly string _viewId;
+        private readonly GoogleCredential _credential;
+        private readonly string _viewId;
         public AnalyticsClient(string path, string viewId)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -50,7 +50,7 @@ namespace webApi.Client
 
             var batchRequest = service.Reports.BatchGet(request);
             var response = batchRequest.Execute();
-            return response.Reports.First().Data.Rows.Select(x => new AnalyticsReport() { Dimensions = x.Dimensions.First(), Views = x.Metrics.First().Values.First() });
+            return response.Reports[0].Data.Rows.Select(x => new AnalyticsReport() { Dimensions = x.Dimensions[0], Views = x.Metrics[0].Values[0] });
         }
     }
 }
