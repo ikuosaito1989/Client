@@ -20,5 +20,4 @@ namespace webApi.Models
         public string FavoriteCount { get; set; }
         public string CommentCount { get; set; }
     }
-
 }
