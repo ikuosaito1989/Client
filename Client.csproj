@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <CodeAnalysisRuleSet>.\tools\sh\global.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>./global.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>CS8032</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
