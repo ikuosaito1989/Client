@@ -13,6 +13,17 @@ namespace webApi.Client
     {
         [Obsolete("`SearchTweets` is deprecated and will be removed in a future release, please use `SearchTweetsV2`.")]
         Task<SearchResult> SearchTweets(params Expression<Func<string, object>>[] parameters);
+
+        /// <summary>
+        /// GET /2/tweets/search/recent
+        /// 検索クエリに一致する過去7日間のツイートを返す
+        /// https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="hashtags"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="untilId"></param>
+        /// <param name="operators"></param>
         Task<SearchTweetsV2Response> SearchTweetsV2(
             string keyword,
             IEnumerable<string> hashtags = null,
@@ -47,8 +58,7 @@ namespace webApi.Client
             string operators = "-is:retweet has:images lang:ja"
         )
         {
-            var tags = hashtags is null ?
-                "" : string.Join(" ", hashtags.Select(x => $"#{x}").ToArray());
+            var tags = hashtags is null ? "" : string.Join(" ", hashtags.Select(x => $"#{x}"));
             var queries = new string[] { keyword, tags, operators }
                 .Where(x => !string.IsNullOrEmpty(x));
             var query = string.Join(" ", queries);
