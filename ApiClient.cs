@@ -31,7 +31,7 @@ namespace webApi.Client
             var response = await _client.GetAsync(requestUrl);
             var json = await response.Content.ReadAsStringAsync();
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
-            var content = Regex.Match(jsonObj.query.pages.ToString(), "\"extract\":.*\".*?\"").Value;
+            var content = new Regex("\"extract\":.*\".*?\"").Match(jsonObj.query.pages.ToString()).Value;
             return content.Replace("\"extract\": \"", "").Replace("\"", "");
         }
 
@@ -53,7 +53,7 @@ namespace webApi.Client
             var domItem = new BillboardDom();
 
             var weeks = doc.GetElementsByClassName("dropdown__date-selector-option");
-            var prevString = Regex.Match(weeks[0].InnerHtml, "\\d{4}-\\d{1,2}-\\d{1,2}").Value;
+            var prevString = new Regex("\\d{4}-\\d{1,2}-\\d{1,2}").Match(weeks[0].InnerHtml).Value;
             domItem.PrevWeek = DateTime.Parse(prevString);
 
             domItem.Title = doc.GetElementsByClassName("chart-number-one__title").First().TextContent;
