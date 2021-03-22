@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CoreTweet;
 using Tweetinvi.Models.V2;
+using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.V2;
 
 namespace webApi.Client
@@ -31,6 +32,13 @@ namespace webApi.Client
             string untilId = null,
             string operators = "-is:retweet has:images lang:ja"
         );
+
+        /// <summary>
+        /// リプライする
+        /// </summary>
+        /// <param name="tweetId"></param>
+        /// <param name="text"></param>
+        Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text);
         UserResponse ShowUser(params Expression<Func<string, object>>[] parameters);
     }
 
@@ -68,6 +76,16 @@ namespace webApi.Client
                 UntilId = untilId
             };
             return await _client.SearchV2.SearchTweetsAsync(param);
+        }
+
+        public async Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text)
+        {
+            var tweet = await _client.Tweets.GetTweetAsync(tweetId);
+            var parameters = new PublishTweetParameters($"@{tweet.CreatedBy} {text}")
+            {
+                InReplyToTweet = tweet
+            };
+            return await _client.Tweets.PublishTweetAsync(parameters);
         }
 
         public UserResponse ShowUser(params Expression<Func<string, object>>[] parameters)
