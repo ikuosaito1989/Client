@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -18,17 +19,18 @@ namespace webApi.Client
 
     public class ApiClient : IApiClient
     {
-        private static HttpClient _client;
+        private static HttpClient s_client;
+        private readonly CultureInfo _cultureInfo = CultureInfo.CreateSpecificCulture("ja-JP");
         public ApiClient(HttpClient client)
         {
-            _client = client;
+            s_client = client;
         }
 
         public async Task<string> GetWikiContents(string urlString)
         {
             var url = new Uri(urlString);
-            var requestUrl = string.Format("https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={0}", url.Segments.Last().Replace("/", ""));
-            var response = await _client.GetAsync(requestUrl);
+            var requestUrl = $"https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={url.Segments.Last().Replace("/", "")}";
+            var response = await s_client.GetAsync(requestUrl);
             var json = await response.Content.ReadAsStringAsync();
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
             var content = new Regex("\"extract\":.*\".*?\"").Match(jsonObj.query.pages.ToString()).Value;
@@ -40,10 +42,10 @@ namespace webApi.Client
             var dateString = "";
             if (week != default)
             {
-                dateString = week.ToString("yyyy-MM-dd");
+                dateString = week.ToString("yyyy-MM-dd", _cultureInfo);
             }
             var url = "https://www.billboard.com/charts/hot-100/" + dateString;
-            var response = await _client.GetAsync(url);
+            var response = await s_client.GetAsync(url);
             var html = await response.Content.ReadAsStringAsync();
 
             var parser = new HtmlParser();
@@ -54,7 +56,7 @@ namespace webApi.Client
 
             var weeks = doc.GetElementsByClassName("dropdown__date-selector-option");
             var prevString = new Regex("\\d{4}-\\d{1,2}-\\d{1,2}").Match(weeks[0].InnerHtml).Value;
-            domItem.PrevWeek = DateTime.Parse(prevString);
+            domItem.PrevWeek = DateTime.Parse(prevString, _cultureInfo);
 
             domItem.Title = doc.GetElementsByClassName("chart-number-one__title").First().TextContent;
             domItem.Rank = "1";
@@ -69,7 +71,7 @@ namespace webApi.Client
                 };
                 dom.Add(domItem);
             }
-            return dom.OrderBy(x => int.Parse(x.Rank)).Take(10).ToList();
+            return dom.OrderBy(x => int.Parse(x.Rank, _cultureInfo.NumberFormat)).Take(10).ToList();
         }
     }
 }

@@ -6,7 +6,9 @@ namespace webApi.Client
 {
     public interface IMailClient
     {
+#pragma warning disable CA1716
         Task SendEmailInSendGrid(string subject, string body, string to = null);
+#pragma warning restore CA1716
     }
 
     public class MailClient : IMailClient
