@@ -34,6 +34,12 @@ namespace webApi.Client
         );
 
         /// <summary>
+        /// ツイートする
+        /// </summary>
+        /// <param name="text"></param>
+        Task<Tweetinvi.Models.ITweet> PublishTweetV2(string text);
+
+        /// <summary>
         /// リプライする
         /// </summary>
         /// <param name="tweetId"></param>
@@ -76,6 +82,11 @@ namespace webApi.Client
                 UntilId = untilId
             };
             return await _client.SearchV2.SearchTweetsAsync(param);
+        }
+
+        public async Task<Tweetinvi.Models.ITweet> PublishTweetV2(string text)
+        {
+            return await _client.Tweets.PublishTweetAsync(text);
         }
 
         public async Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text)
