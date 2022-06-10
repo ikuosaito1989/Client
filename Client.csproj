@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <CodeAnalysisRuleSet>./global.ruleset</CodeAnalysisRuleSet>
     <NoWarn>CS8032</NoWarn>
   </PropertyGroup>
@@ -14,15 +14,15 @@
     <PackageReference Include="CoreTweet" Version="1.0.0.483" />
     <PackageReference Include="SpotifyAPI.Web" Version="3.1.1" />
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="3.1.1" />
-    <PackageReference Include="Roslynator.Analyzers" Version="3.2.2">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.1.1">
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.2.2">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
