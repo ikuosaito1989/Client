@@ -24,15 +24,17 @@ namespace webApi.Client
         /// 検索クエリに一致する過去7日間のツイートを返す
         /// https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
         /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="hashtags"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="keyword">キーワード</param>
+        /// <param name="hashtags">ハッシュタグ</param>
+        /// <param name="pageSize">取得件数</param>
+        /// <param name="ignoreUserNames">無視するユーザー名</param>
         /// <param name="untilId"></param>
         /// <param name="operators"></param>
         Task<SearchTweetsV2Response> SearchTweetsV2(
             string keyword,
             IEnumerable<string> hashtags = null,
             int pageSize = 10,
+            IEnumerable<string> ignoreUserNames = null,
             string untilId = null,
             string operators = "-is:retweet has:images lang:ja"
         );
@@ -55,6 +57,7 @@ namespace webApi.Client
         /// <param name="tweetId"></param>
         /// <param name="text"></param>
         Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text);
+
         UserResponse ShowUser(params Expression<Func<string, object>>[] parameters);
     }
 
@@ -78,19 +81,28 @@ namespace webApi.Client
             string keyword,
             IEnumerable<string> hashtags = null,
             int pageSize = 10,
+            IEnumerable<string> ignoreUserNames = null,
             string untilId = null,
             string operators = "-is:retweet has:images lang:ja"
         )
         {
-            var tags = hashtags is null ? "" : string.Join(" ", hashtags.Select(x => $"#{x}"));
-            var queries = new string[] { keyword, tags, operators }
+            var tags = "";
+            if (hashtags != null)
+            {
+                tags = string.Join(" ", hashtags.Select(x => $"#{x}"));
+            }
+
+            var userNames = "";
+            if (ignoreUserNames != null)
+            {
+                userNames = string.Join(" ", ignoreUserNames.Select(x => $"-from:{x}"));
+            }
+
+            var queries = new string[] { keyword, tags, userNames, operators }
                 .Where(x => !string.IsNullOrEmpty(x));
             var query = string.Join(" ", queries);
-            var param = new SearchTweetsV2Parameters(query)
-            {
-                PageSize = pageSize,
-                UntilId = untilId
-            };
+
+            var param = new SearchTweetsV2Parameters(query) { PageSize = pageSize, UntilId = untilId };
 
             return await _client.SearchV2.SearchTweetsAsync(param);
         }
@@ -108,10 +120,7 @@ namespace webApi.Client
         public async Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text)
         {
             var tweet = await _client.Tweets.GetTweetAsync(tweetId);
-            var parameters = new PublishTweetParameters($"@{tweet.CreatedBy} {text}")
-            {
-                InReplyToTweet = tweet
-            };
+            var parameters = new PublishTweetParameters($"@{tweet.CreatedBy} {text}") { InReplyToTweet = tweet };
             return await _client.Tweets.PublishTweetAsync(parameters);
         }
 
