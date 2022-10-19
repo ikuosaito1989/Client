@@ -17,29 +17,28 @@ namespace webApi.Client
 
     public class MailClient : IMailClient
     {
-        public MailClient(string from, string to, string sendGridApiKey)
+        public MailClient(string from, string to, string sendGridApiKey, string fromName = "")
         {
             From = from;
             To = to;
             SendGridApiKey = sendGridApiKey;
+            FromName = fromName;
         }
 
         public string From { get; set; }
+        public string FromName { get; set; }
         public string To { get; set; }
         public string SendGridApiKey { get; set; }
 
         public async Task SendEmailInSendGrid(string subject, string body, string to = null)
         {
-            to = string.IsNullOrEmpty(to) ? this.To : to;
-            var client = new SendGridClient(this.SendGridApiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress(this.From),
-                Subject = subject,
-                PlainTextContent = body,
-                HtmlContent = body.Replace("\r\n", "<br>").Replace("\n", "<br>")
-            };
-            msg.AddTo(new EmailAddress(to));
+            to = string.IsNullOrEmpty(to) ? To : to;
+            var client = new SendGridClient(SendGridApiKey);
+            var from = new EmailAddress(From, FromName);
+            var toAddress = new EmailAddress(to);
+            var plainTextContent = body;
+            var htmlContent = body.Replace("\r\n", "<br>").Replace("\n", "<br>");
+            var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             await client.SendEmailAsync(msg);
         }
     }
