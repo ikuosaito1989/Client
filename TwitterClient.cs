@@ -69,6 +69,7 @@ namespace webApi.Client
         public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
         {
             _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
+
             _client = new Tweetinvi.TwitterClient(consumerKey, consumerSecret, accessToken, accessSecret);
         }
 
@@ -89,7 +90,7 @@ namespace webApi.Client
             var tags = "";
             if (hashtags != null)
             {
-                tags = string.Join(" ", hashtags.Select(x => $"#{x}"));
+                tags = string.Join(" OR ", hashtags.Select(x => $"#{x}"));
             }
 
             var userNames = "";
