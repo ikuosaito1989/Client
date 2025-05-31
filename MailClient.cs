@@ -15,20 +15,13 @@ namespace webApi.Client
 #pragma warning restore CA1716
     }
 
-    public class MailClient : IMailClient
+    public class MailClient(string from, string to, string sendGridApiKey, string fromName = "")
+        : IMailClient
     {
-        public MailClient(string from, string to, string sendGridApiKey, string fromName = "")
-        {
-            From = from;
-            To = to;
-            SendGridApiKey = sendGridApiKey;
-            FromName = fromName;
-        }
-
-        public string From { get; set; }
-        public string FromName { get; set; }
-        public string To { get; set; }
-        public string SendGridApiKey { get; set; }
+        public string From { get; set; } = from;
+        public string FromName { get; set; } = fromName;
+        public string To { get; set; } = to;
+        public string SendGridApiKey { get; set; } = sendGridApiKey;
 
         public async Task SendEmailInSendGrid(string subject, string body, string to = null)
         {

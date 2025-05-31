@@ -40,16 +40,17 @@ namespace webApi.Client
 
             var request = new GetReportsRequest
             {
-                ReportRequests = new[] {
+                ReportRequests =
+                [
                     new ReportRequest
                     {
                         ViewId = _viewId,
-                        Metrics = new[] { new Metric { Expression = "ga:pageviews" } },
-                        Dimensions = new[] { new Dimension { Name = "ga:pagePath" } },
-                        DateRanges = new[] { new DateRange { StartDate = "2018-04-01", EndDate = "today" } },
-                        OrderBys = new [] { new OrderBy { FieldName = "ga:pageviews", SortOrder = "DESCENDING" } }
+                        Metrics = [new Metric { Expression = "ga:pageviews" }],
+                        Dimensions = [new Dimension { Name = "ga:pagePath" }],
+                        DateRanges = [new DateRange { StartDate = "2018-04-01", EndDate = "today" }],
+                        OrderBys = [new OrderBy { FieldName = "ga:pageviews", SortOrder = "DESCENDING" }]
                     }
-                }
+                ]
             };
 
             var batchRequest = service.Reports.BatchGet(request);

@@ -61,17 +61,11 @@ namespace webApi.Client
         UserResponse ShowUser(params Expression<Func<string, object>>[] parameters);
     }
 
-    public class TwitterClient : ITwitterClient
+    public class TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
+        : ITwitterClient
     {
-        private readonly Tokens _tokens;
-        private readonly Tweetinvi.TwitterClient _client;
-
-        public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
-        {
-            _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
-
-            _client = new Tweetinvi.TwitterClient(consumerKey, consumerSecret, accessToken, accessSecret);
-        }
+        private readonly Tokens _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
+        private readonly Tweetinvi.TwitterClient _client = new(consumerKey, consumerSecret, accessToken, accessSecret);
 
         public async Task<SearchResult> SearchTweets(params Expression<Func<string, object>>[] parameters)
         {
