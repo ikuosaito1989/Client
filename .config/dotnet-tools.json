@@ -2,11 +2,12 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "dotnet-format": {
-      "version": "4.1.131201",
+    "csharpier": {
+      "version": "0.28.2",
       "commands": [
-        "dotnet-format"
-      ]
+        "dotnet-csharpier"
+      ],
+      "rollForward": false
     },
     "roslynator.dotnet.cli": {
       "version": "0.1.1",

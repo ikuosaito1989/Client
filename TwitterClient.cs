@@ -76,12 +76,8 @@ namespace webApi.Client
             accessToken,
             accessSecret
         );
-        private readonly Tweetinvi.TwitterClient _client = new(
-            consumerKey,
-            consumerSecret,
-            accessToken,
-            accessSecret
-        );
+        private readonly Tweetinvi.TwitterClient _client =
+            new(consumerKey, consumerSecret, accessToken, accessSecret);
 
         public async Task<SearchResult> SearchTweets(
             params Expression<Func<string, object>>[] parameters
