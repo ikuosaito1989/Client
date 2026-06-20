@@ -21,22 +21,27 @@ namespace webApi.Client
     {
         private readonly GoogleCredential _credential;
         private readonly string _viewId;
+
         public AnalyticsClient(string path, string viewId)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                _credential = GoogleCredential.FromStream(stream).CreateScoped(AnalyticsReportingService.Scope.AnalyticsReadonly);
+                _credential = GoogleCredential
+                    .FromStream(stream)
+                    .CreateScoped(AnalyticsReportingService.Scope.AnalyticsReadonly);
             }
             _viewId = viewId;
         }
 
         public IEnumerable<AnalyticsReport> GetAnalyticsReport()
         {
-            var service = new AnalyticsReportingService(new AnalyticsReportingService.Initializer()
-            {
-                HttpClientInitializer = _credential,
-                ApplicationName = "app",
-            });
+            var service = new AnalyticsReportingService(
+                new AnalyticsReportingService.Initializer()
+                {
+                    HttpClientInitializer = _credential,
+                    ApplicationName = "app",
+                }
+            );
 
             var request = new GetReportsRequest
             {
@@ -47,15 +52,27 @@ namespace webApi.Client
                         ViewId = _viewId,
                         Metrics = [new Metric { Expression = "ga:pageviews" }],
                         Dimensions = [new Dimension { Name = "ga:pagePath" }],
-                        DateRanges = [new DateRange { StartDate = "2018-04-01", EndDate = "today" }],
-                        OrderBys = [new OrderBy { FieldName = "ga:pageviews", SortOrder = "DESCENDING" }]
-                    }
-                ]
+                        DateRanges =
+                        [
+                            new DateRange { StartDate = "2018-04-01", EndDate = "today" },
+                        ],
+                        OrderBys =
+                        [
+                            new OrderBy { FieldName = "ga:pageviews", SortOrder = "DESCENDING" },
+                        ],
+                    },
+                ],
             };
 
             var batchRequest = service.Reports.BatchGet(request);
             var response = batchRequest.Execute();
-            return response.Reports[0].Data.Rows.Select(x => new AnalyticsReport() { Dimensions = x.Dimensions[0], Views = x.Metrics[0].Values[0] });
+            return response
+                .Reports[0]
+                .Data.Rows.Select(x => new AnalyticsReport()
+                {
+                    Dimensions = x.Dimensions[0],
+                    Views = x.Metrics[0].Values[0],
+                });
         }
     }
 }

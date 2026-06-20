@@ -16,7 +16,9 @@ namespace webApi.Client
 {
     public interface ITwitterClient
     {
-        [Obsolete("`SearchTweets` is deprecated and will be removed in a future release, please use `SearchTweetsV2`.")]
+        [Obsolete(
+            "`SearchTweets` is deprecated and will be removed in a future release, please use `SearchTweetsV2`."
+        )]
         Task<SearchResult> SearchTweets(params Expression<Func<string, object>>[] parameters);
 
         /// <summary>
@@ -61,13 +63,29 @@ namespace webApi.Client
         UserResponse ShowUser(params Expression<Func<string, object>>[] parameters);
     }
 
-    public class TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
-        : ITwitterClient
+    public class TwitterClient(
+        string consumerKey,
+        string consumerSecret,
+        string accessToken,
+        string accessSecret
+    ) : ITwitterClient
     {
-        private readonly Tokens _tokens = Tokens.Create(consumerKey, consumerSecret, accessToken, accessSecret);
-        private readonly Tweetinvi.TwitterClient _client = new(consumerKey, consumerSecret, accessToken, accessSecret);
+        private readonly Tokens _tokens = Tokens.Create(
+            consumerKey,
+            consumerSecret,
+            accessToken,
+            accessSecret
+        );
+        private readonly Tweetinvi.TwitterClient _client = new(
+            consumerKey,
+            consumerSecret,
+            accessToken,
+            accessSecret
+        );
 
-        public async Task<SearchResult> SearchTweets(params Expression<Func<string, object>>[] parameters)
+        public async Task<SearchResult> SearchTweets(
+            params Expression<Func<string, object>>[] parameters
+        )
         {
             return await _tokens.Search.TweetsAsync(parameters);
         }
@@ -93,11 +111,16 @@ namespace webApi.Client
                 userNames = string.Join(" ", ignoreUserNames.Select(x => $"-from:{x}"));
             }
 
-            var queries = new string[] { keyword, tags, userNames, operators }
-                .Where(x => !string.IsNullOrEmpty(x));
+            var queries = new string[] { keyword, tags, userNames, operators }.Where(x =>
+                !string.IsNullOrEmpty(x)
+            );
             var query = string.Join(" ", queries);
 
-            var param = new SearchTweetsV2Parameters(query) { PageSize = pageSize, UntilId = untilId };
+            var param = new SearchTweetsV2Parameters(query)
+            {
+                PageSize = pageSize,
+                UntilId = untilId,
+            };
 
             return await _client.SearchV2.SearchTweetsAsync(param);
         }
@@ -115,7 +138,10 @@ namespace webApi.Client
         public async Task<Tweetinvi.Models.ITweet> ReplyTweetV2(long tweetId, string text)
         {
             var tweet = await _client.Tweets.GetTweetAsync(tweetId);
-            var parameters = new PublishTweetParameters($"@{tweet.CreatedBy} {text}") { InReplyToTweet = tweet };
+            var parameters = new PublishTweetParameters($"@{tweet.CreatedBy} {text}")
+            {
+                InReplyToTweet = tweet,
+            };
             return await _client.Tweets.PublishTweetAsync(parameters);
         }
 

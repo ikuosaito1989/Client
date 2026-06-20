@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <CodeAnalysisRuleSet>./global.ruleset</CodeAnalysisRuleSet>
@@ -28,5 +27,4 @@
     </PackageReference>
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
   </ItemGroup>
-
 </Project>

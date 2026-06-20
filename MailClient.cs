@@ -31,7 +31,13 @@ namespace webApi.Client
             var toAddress = new EmailAddress(to);
             var plainTextContent = body;
             var htmlContent = body.Replace("\r\n", "<br>").Replace("\n", "<br>");
-            var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
+            var msg = MailHelper.CreateSingleEmail(
+                from,
+                toAddress,
+                subject,
+                plainTextContent,
+                htmlContent
+            );
             await client.SendEmailAsync(msg);
         }
     }

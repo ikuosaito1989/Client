@@ -25,6 +25,7 @@ namespace webApi.Client
     {
         private static HttpClient s_client;
         private readonly CultureInfo _cultureInfo = CultureInfo.CreateSpecificCulture("ja-JP");
+
         public ApiClient(HttpClient client)
         {
             s_client = client;
@@ -33,11 +34,14 @@ namespace webApi.Client
         public async Task<string> GetWikiContents(string urlString)
         {
             var url = new Uri(urlString);
-            var requestUrl = $"https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={url.Segments.Last().Replace("/", "")}";
+            var requestUrl =
+                $"https://ja.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=10&explaintext=&titles={url.Segments.Last().Replace("/", "")}";
             var response = await s_client.GetAsync(requestUrl);
             var json = await response.Content.ReadAsStringAsync();
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
-            var content = new Regex("\"extract\":.*\".*?\"").Match(jsonObj.query.pages.ToString()).Value;
+            var content = new Regex("\"extract\":.*\".*?\"")
+                .Match(jsonObj.query.pages.ToString())
+                .Value;
             return content.Replace("\"extract\": \"", "").Replace("\"", "");
         }
 
@@ -62,7 +66,9 @@ namespace webApi.Client
             var prevString = new Regex("\\d{4}-\\d{1,2}-\\d{1,2}").Match(weeks[0].InnerHtml).Value;
             domItem.PrevWeek = DateTime.Parse(prevString, _cultureInfo);
 
-            domItem.Title = doc.GetElementsByClassName("chart-number-one__title").First().TextContent;
+            domItem.Title = doc.GetElementsByClassName("chart-number-one__title")
+                .First()
+                .TextContent;
             domItem.Rank = "1";
             dom.Add(domItem);
 
@@ -71,7 +77,7 @@ namespace webApi.Client
                 domItem = new BillboardDom()
                 {
                     Rank = item.Attributes["data-rank"].Value,
-                    Title = item.Attributes["data-title"].Value
+                    Title = item.Attributes["data-title"].Value,
                 };
                 dom.Add(domItem);
             }

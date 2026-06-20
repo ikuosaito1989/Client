@@ -13,7 +13,12 @@ namespace webApi.Client
 {
     public interface ISpotifyClient
     {
-        Task<SearchItem> SearchAirtistItemsAsync(string q, int limit = 1, int offset = 0, string market = "");
+        Task<SearchItem> SearchAirtistItemsAsync(
+            string q,
+            int limit = 1,
+            int offset = 0,
+            string market = ""
+        );
         Task<FullArtist> GetArtistAsync(string id);
         Task<SeveralArtists> GetSeveralArtists(List<string> ids);
     }
@@ -21,14 +26,24 @@ namespace webApi.Client
     public class SpotifyClient : ISpotifyClient
     {
         private static SpotifyWebAPI s_spotify;
+
         public SpotifyClient(string clientId, string clientSecret)
         {
             var auth = new CredentialsAuth(clientId, clientSecret);
             var token = auth.GetToken().Result;
-            s_spotify = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
+            s_spotify = new SpotifyWebAPI()
+            {
+                TokenType = token.TokenType,
+                AccessToken = token.AccessToken,
+            };
         }
 
-        public Task<SearchItem> SearchAirtistItemsAsync(string q, int limit = 1, int offset = 0, string market = "")
+        public Task<SearchItem> SearchAirtistItemsAsync(
+            string q,
+            int limit = 1,
+            int offset = 0,
+            string market = ""
+        )
         {
             return s_spotify.SearchItemsAsync(q, SearchType.Artist);
         }
