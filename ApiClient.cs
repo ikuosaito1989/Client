@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AngleSharp.Parser.Html;
+using AngleSharp.Html.Parser;
 using Newtonsoft.Json;
 using webApi.Models;
 
@@ -57,7 +57,7 @@ namespace webApi.Client
             var html = await response.Content.ReadAsStringAsync();
 
             var parser = new HtmlParser();
-            var doc = parser.Parse(html);
+            var doc = parser.ParseDocument(html);
             var dom = new List<BillboardDom>();
 
             var domItem = new BillboardDom();

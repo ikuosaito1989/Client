@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.9.10" />
+    <PackageReference Include="AngleSharp" Version="1.7.1" />
     <PackageReference Include="Google.Apis.AnalyticsReporting.v4" Version="1.55.0.2484" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Sendgrid" Version="9.25.0" />
